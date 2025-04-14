@@ -1,11 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mapa do Amor</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", sans-serif;
+        background-color: #fef1f5;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+      h1 {
+        text-align: center;
+        color: #d6336c;
+        margin: 20px 0 10px;
+      }
+      #map {
+        flex: 1;
+      }
+      .swal2-popup {
+        font-size: 1.1rem !important;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🗺️ Mapa do Amor</h1>
+    <div id="map"></div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+      // Iniciar o mapa
+      const map = L.map("map").setView([-3.1125292, -59.9758811], 13); // São Paulo
+
+      // Tile layer do OpenStreetMap
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "© OpenStreetMap contributors",
+      }).addTo(map);
+
+      const ponto1 = L.marker([-3.1125292, -59.9758811]).addTo(map);
+      ponto1.bindPopup("Clique aqui para o enigma!");
+
+      ponto1.on("click", () => {
+        Swal.fire({
+          title: "🔍 Enigma do Amor",
+          html: `
+      <p>Aqui começou um dos nossos capítulos mais lindos...</p>
+      <p><strong>Qual era o nome da rua?</strong></p>
+      <input type="text" id="codigo" class="swal2-input" placeholder="Digite a resposta...">
+    `,
+          confirmButtonText: "Enviar",
+          preConfirm: () => {
+            const resposta = document
+              .getElementById("codigo")
+              .value.trim()
+              .toLowerCase();
+            if (resposta === "ruad11") {
+              Swal.fire(
+                "💖 Mensagem Secreta",
+                "Você acertou! A Rua D11 foi palco de tantos momentos lindos com você 💘",
+                "success"
+              );
+            } else {
+              Swal.showValidationMessage(
+                "Essa não é a resposta certa... tenta lembrar com carinho! 💭"
+              );
+            }
+          },
+        });
+      });
+    </script>
+  </body>
 </html>

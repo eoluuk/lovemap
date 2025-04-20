@@ -9,19 +9,24 @@
       body {
         margin: 0;
         font-family: "Segoe UI", sans-serif;
-        background-color: #fef1f5;
+        background-color: #e91e63;
         display: flex;
         flex-direction: column;
         height: 100vh;
       }
       h1 {
         text-align: center;
-        color: #d6336c;
+        color: #e6e6e6;
         margin: 20px 0 10px;
       }
       #map {
         flex: 1;
+        margin: 20px;
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        border: 3px solid #f8bbd0;
       }
+
       .swal2-popup {
         font-size: 1.1rem !important;
       }
@@ -36,16 +41,28 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+      /* marcador personalizado */
+      const iconeCoracao = L.icon({
+        iconUrl: "https://cdn-icons-png.flaticon.com/512/833/833472.png", // coração
+        iconSize: [38, 38],
+        iconAnchor: [19, 38],
+        popupAnchor: [0, -38],
+      });
+
       // Iniciar o mapa
       const map = L.map("map").setView([-3.1125292, -59.9758811], 13); // São Paulo
 
       // Tile layer do OpenStreetMap
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "© OpenStreetMap contributors",
-      }).addTo(map);
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+        {
+          attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+        }
+      ).addTo(map);
 
-      const ponto1 = L.marker([-3.1125292, -59.9758811]).addTo(map);
-      ponto1.bindPopup("Clique aqui para o enigma!");
+      const ponto1 = L.marker([-3.1125292, -59.9758811], {
+        icon: iconeCoracao,
+      }).addTo(map);
 
       ponto1.on("click", () => {
         Swal.fire({
